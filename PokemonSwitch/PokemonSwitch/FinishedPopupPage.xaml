@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:local="clr-namespace:PokemonSwitch;assembly=PokemonSwitch"  
+             x:Class="PokemonSwitch.FinishedPopupPage">
+  <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+    <Frame BackgroundColor="Silver">
+      <StackLayout Spacing="20">
+        <StackLayout Orientation="Horizontal" HeightRequest="70">
+          <Grid>
+            <Image x:Name="starBlankOne" IsVisible="{Binding StarOne.NotChoose}"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
+
+            <Image x:Name="starSelectedOne"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
+                    IsVisible="{Binding StarOne.Choose}"/>
+          </Grid>
+          <Grid >
+            <Image x:Name="starBlankTwo" IsVisible="{Binding StarTwo.NotChoose}"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
+
+            <Image x:Name="starSelectedTwo"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
+                    IsVisible="{Binding StarTwo.Choose}"/>
+          </Grid>
+          <Grid >
+            <Image x:Name="starBlankThree" IsVisible="{Binding StarThree.NotChoose}"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
+
+            <Image x:Name="starSelectedThree"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
+                    IsVisible="{Binding StarThree.Choose}"/>
+          </Grid>
+          <Grid >
+            <Image x:Name="starBlankFour" IsVisible="{Binding StarFour.NotChoose}"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
+
+            <Image x:Name="starSelectedFour"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
+                    IsVisible="{Binding StarFour.Choose}"/>
+          </Grid>
+          <Grid >
+            <Image x:Name="starBlankFive" IsVisible="{Binding StarFive.NotChoose}"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
+
+            <Image x:Name="starSelectedFive"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
+                    IsVisible="{Binding StarFive.Choose}"/>
+          </Grid>
+        </StackLayout>
+        <Button Text="Cạt ơi !" Clicked="OnClose" ></Button>
+      </StackLayout>
+    </Frame>
+  </StackLayout>
+</pages:PopupPage>
