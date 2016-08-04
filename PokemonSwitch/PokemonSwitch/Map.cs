@@ -16,9 +16,15 @@ namespace PokemonSwitch
         Grid controlGrid = new Grid { RowSpacing = 1, ColumnSpacing = 1 };
         Style plainButton, orangeButton;
         bool[] arrStyle = { true, true, false, false, true, false, false, false, false, false, false, false, false, false, false, false };
+        FinishedPopupPage finishPage;
+        MapSaver mapSaved = new MapSaver();
+        Dictionary<int, List<MapSaver>> dicStepToMap = new Dictionary<int, List<MapSaver>>();
+        int currentLevel, currentMapIndex, currentStep;
         public Map()
         {
-
+            currentLevel = 2;
+            currentMapIndex = 0;
+            finishPage = new FinishedPopupPage(5);
             Title = "Calculator - C#";
             BackgroundColor = Color.FromHex("#404040");
 
@@ -99,23 +105,23 @@ namespace PokemonSwitch
             //controlGrid.Children.Add(zeroButton, 0, 5);
             //Grid.SetColumnSpan(zeroButton, 2);
 
-            for (int i = 0; i < 16; i++)
-            {
-                controlGrid.Children[i].ClassId = i.ToString();
-                ImageButton buttonI = (ImageButton)controlGrid.Children[i];
-                //UpdateButton(i);
-                if (arrStyle[i])
-                {
-                    buttonI.Style = orangeButton;
-                    buttonI.Source = "Charizard.png";
-                }
-                else
-                {
-                    buttonI.Style = plainButton;
-                    buttonI.Source = "Venusaur.png";
-                }
-                buttonI.Clicked += ButtonI_Clicked;
-            }
+            //for (int i = 0; i < 16; i++)
+            //{
+            //    controlGrid.Children[i].ClassId = i.ToString();
+            //    ImageButton buttonI = (ImageButton)controlGrid.Children[i];
+            //    //UpdateButton(i);
+            //    if (arrStyle[i])
+            //    {
+            //        buttonI.Style = orangeButton;
+            //        buttonI.Source = "Charizard.png";
+            //    }
+            //    else
+            //    {
+            //        buttonI.Style = plainButton;
+            //        buttonI.Source = "Venusaur.png";
+            //    }
+            //    buttonI.Clicked += ButtonI_Clicked;
+            //}
 
             Content = controlGrid;
 
@@ -145,8 +151,19 @@ namespace PokemonSwitch
             }
             return true;
         }
+        private int ConvertStepToRating(int minStep)
+        {
+            double completePercent = (double)((double)minStep / (double)currentStep) * 100;
+            if (completePercent <= 20) return 1;
+            else if (completePercent <= 40) return 2;
+            else if (completePercent <= 60) return 3;
+            else if (completePercent <= 80) return 4;
+            else return 5;
+
+        }
         private async void ButtonI_Clicked(object sender, EventArgs e)
         {
+            currentStep++;
             int index = Int32.Parse(((View)sender).ClassId);
             arrStyle[index] = !arrStyle[index];
             UpdateButton(index);
@@ -163,10 +180,64 @@ namespace PokemonSwitch
             }
             if (IsSolved())
             {
-                var page = new FinishedPopupPage(3);
-                await Navigation.PushPopupAsync(page);
+                finishPage.SetStar(ConvertStepToRating(dicStepToMap[currentLevel][currentMapIndex].nSolvedStep));
+                await Navigation.PushPopupAsync(finishPage);
+                currentStep = 0;
+                if (finishPage.choosen == FinishedPopupPage.PopupChoosen.NextMap)
+                    NextMap();
             }
 
+        }
+        private void SolveAndSave()
+        {
+            Algorithm algo = new Algorithm();
+            List<Node> listRes = algo.Solve(arrStyle);
+            mapSaved = new MapSaver(listRes.Count, arrStyle, listRes);
+        }
+        public void SetMap(Dictionary<int, List<MapSaver>> dic, int level)
+        {
+            currentStep = 0;
+            dicStepToMap = new Dictionary<int, List<MapSaver>>(dic);
+            currentLevel = level;
+            currentMapIndex = 0;
+            for(int i = 0; i < 16; i ++)
+            {
+                arrStyle[i] = dicStepToMap[currentLevel][currentMapIndex].arrStyle[i];
+                ImageButton buttonI = (ImageButton)controlGrid.Children[i];
+                controlGrid.Children[i].ClassId = i.ToString();
+                UpdateButton(i);
+                buttonI.Clicked += ButtonI_Clicked;
+            }
+        }
+        private void NextMap()
+        {
+            if (currentMapIndex == dicStepToMap[currentLevel].Count - 1)
+            {
+                currentLevel++;
+                currentMapIndex = 0;
+            }
+            else
+                currentMapIndex++;
+            for(int i = 0; i < 16; i ++)
+            {
+                arrStyle[i] = dicStepToMap[currentLevel][currentMapIndex].arrStyle[i]; ;
+                UpdateButton(i);
+            }
+        }
+    }
+
+    public class MapSaver
+    {
+        public int nSolvedStep;
+        public bool[] arrStyle;
+        public List<Node> listResult;
+        public MapSaver() { }
+        public MapSaver(int _nStep, bool [] arr, List<Node> l)
+        {
+            nSolvedStep = _nStep;
+            for (int i = 0; i < arr.Length; i++)
+                arrStyle[i] = arr[i];
+            listResult = new List<Node>(l);
         }
     }
 }

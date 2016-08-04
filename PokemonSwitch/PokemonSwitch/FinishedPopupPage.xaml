@@ -49,7 +49,10 @@
                     IsVisible="{Binding StarFive.Choose}"/>
           </Grid>
         </StackLayout>
-        <Button Text="Cạt ơi !" Clicked="OnClose" ></Button>
+        <StackLayout Spacing="20" Orientation="Horizontal">
+          <Button Text="Try Again" Clicked="OnClose" ></Button>
+          <Button Text="Next Map" Clicked="OnNextMap" ></Button>
+        </StackLayout>
       </StackLayout>
     </Frame>
   </StackLayout>
