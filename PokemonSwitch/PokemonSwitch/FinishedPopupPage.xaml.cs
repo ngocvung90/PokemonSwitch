@@ -14,11 +14,13 @@ namespace PokemonSwitch
     {
         public enum PopupChoosen
         {
-            Close = 0,
+            None = 0,
+            Retry,
             NextMap
         }
         FinishedPopupVM _vm = new FinishedPopupVM();
-        public PopupChoosen choosen = PopupChoosen.Close;
+        Map _mapDelegate = null;
+        public PopupChoosen choosen = PopupChoosen.None;
         public FinishedPopupPage(int indexStar = 1)
         {
             InitializeComponent();
@@ -26,19 +28,45 @@ namespace PokemonSwitch
             BindingContext = _vm;
         }
 
+        public void SetMapDelegate(Map map)
+        {
+            _mapDelegate = map;
+        }
+
         public void SetStar(int indexStar)
         {
             _vm.SetStar(indexStar);
         }
-        private void OnClose(object sender, EventArgs e)
+        private async void OnClose(object sender, EventArgs e)
         {
-            choosen = PopupChoosen.Close;
-            PopupNavigation.PopAsync();
+            choosen = PopupChoosen.Retry;
+            await PopupNavigation.PopAsync();
+            _mapDelegate.NextMap(choosen);
         }
 
-        private void OnNextMap(object sender, EventArgs e)
+        private async void OnNextMap(object sender, EventArgs e)
         {
             choosen = PopupChoosen.NextMap;
+            await PopupNavigation.PopAsync();
+            _mapDelegate.NextMap(choosen);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            
+            
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            // Prevent hide popup
+            //return base.OnBackButtonPressed();
+            return false;
         }
     }
 }

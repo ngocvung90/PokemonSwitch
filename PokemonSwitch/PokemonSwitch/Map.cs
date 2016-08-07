@@ -1,11 +1,13 @@
 ﻿using PokemonSwitch.Interface;
 using Rg.Plugins.Popup.Extensions;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static PokemonSwitch.FinishedPopupPage;
 
 namespace PokemonSwitch
 {
@@ -25,6 +27,7 @@ namespace PokemonSwitch
             currentLevel = 2;
             currentMapIndex = 0;
             finishPage = new FinishedPopupPage(5);
+            finishPage.SetMapDelegate(this);
             Title = "Calculator - C#";
             BackgroundColor = Color.FromHex("#404040");
 
@@ -161,6 +164,7 @@ namespace PokemonSwitch
             else return 5;
 
         }
+
         private async void ButtonI_Clicked(object sender, EventArgs e)
         {
             currentStep++;
@@ -181,10 +185,7 @@ namespace PokemonSwitch
             if (IsSolved())
             {
                 finishPage.SetStar(ConvertStepToRating(dicStepToMap[currentLevel][currentMapIndex].nSolvedStep));
-                await Navigation.PushPopupAsync(finishPage);
-                currentStep = 0;
-                if (finishPage.choosen == FinishedPopupPage.PopupChoosen.NextMap)
-                    NextMap();
+                await PopupNavigation.PushAsync(finishPage);
             }
 
         }
@@ -209,16 +210,20 @@ namespace PokemonSwitch
                 buttonI.Clicked += ButtonI_Clicked;
             }
         }
-        private void NextMap()
+        public void NextMap(PopupChoosen choosen)
         {
-            if (currentMapIndex == dicStepToMap[currentLevel].Count - 1)
+            currentStep = 0;
+            if(choosen == PopupChoosen.NextMap)
             {
-                currentLevel++;
-                currentMapIndex = 0;
+                if (currentMapIndex == dicStepToMap[currentLevel].Count - 1)
+                {
+                    currentLevel++;
+                    currentMapIndex = 0;
+                }
+                else
+                    currentMapIndex++;
             }
-            else
-                currentMapIndex++;
-            for(int i = 0; i < 16; i ++)
+            for (int i = 0; i < 16; i++)
             {
                 arrStyle[i] = dicStepToMap[currentLevel][currentMapIndex].arrStyle[i]; ;
                 UpdateButton(i);
