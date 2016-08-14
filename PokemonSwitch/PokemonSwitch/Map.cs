@@ -11,7 +11,7 @@ using static PokemonSwitch.FinishedPopupPage;
 
 namespace PokemonSwitch
 {
-    public class Map : ContentPage
+    public class Map : ContentPage, IMapDelegate
     {
         int[] dx = { -1, 1, 0, 0 };
         int[] dy = { 0, 0, -1, 1 };
@@ -22,6 +22,7 @@ namespace PokemonSwitch
         MapSaver mapSaved = new MapSaver();
         Dictionary<int, List<MapSaver>> dicStepToMap = new Dictionary<int, List<MapSaver>>();
         int currentLevel, currentMapIndex, currentStep;
+        HeaderVM _headerVM = new HeaderVM();
         public Map()
         {
             currentLevel = 2;
@@ -101,31 +102,20 @@ namespace PokemonSwitch
             controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 4);
             controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 4);
             controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 4);
+
+            Header header = new Header();
+            controlGrid.Children.Add(header, 0, 0);
+            Grid.SetColumnSpan(header, 4);
+            header.BindingContext = _headerVM;
+
             //controlGrid.Children.Add(new Button { Text = ".", Style = plainButton }, 2, 5);
             //controlGrid.Children.Add(new Button { Text = "=", Style = orangeButton }, 3, 5);
 
-            //var zeroButton = new Button { Text = "0", Style = plainButton };
-            //controlGrid.Children.Add(zeroButton, 0, 5);
-            //Grid.SetColumnSpan(zeroButton, 2);
+            MapFooter footer = new MapFooter(this);
+            controlGrid.Children.Add(footer, 0, 5);
+            Grid.SetColumnSpan(footer, 4);
 
-            //for (int i = 0; i < 16; i++)
-            //{
-            //    controlGrid.Children[i].ClassId = i.ToString();
-            //    ImageButton buttonI = (ImageButton)controlGrid.Children[i];
-            //    //UpdateButton(i);
-            //    if (arrStyle[i])
-            //    {
-            //        buttonI.Style = orangeButton;
-            //        buttonI.Source = "Charizard.png";
-            //    }
-            //    else
-            //    {
-            //        buttonI.Style = plainButton;
-            //        buttonI.Source = "Venusaur.png";
-            //    }
-            //    buttonI.Clicked += ButtonI_Clicked;
-            //}
-
+            controlGrid.BackgroundColor = Color.FromHex("#558B2F");
             Content = controlGrid;
 
         }
@@ -195,13 +185,33 @@ namespace PokemonSwitch
             List<Node> listRes = algo.Solve(arrStyle);
             mapSaved = new MapSaver(listRes.Count, arrStyle, listRes);
         }
+        private string LevelIntToText(int level)
+        {
+            string strLevel = "";
+            switch(level)
+            {
+                case 2:
+                    strLevel = "Very Easy"; break;
+                case 3:
+                    strLevel = "Easy"; break;
+                case 4:
+                    strLevel = "Hard"; break;
+                case 5:
+                    strLevel = "Very Hard"; break;
+                default:
+                    strLevel = "Extra Hard"; break;
+            }
+            return strLevel;
+        }
         public void SetMap(Dictionary<int, List<MapSaver>> dic, int level)
         {
             currentStep = 0;
             dicStepToMap = new Dictionary<int, List<MapSaver>>(dic);
             currentLevel = level;
             currentMapIndex = 0;
-            for(int i = 0; i < 16; i ++)
+            _headerVM.Level = LevelIntToText(level);
+            _headerVM.Gate = (currentMapIndex + 1) + "/" + dicStepToMap[currentLevel].Count;
+            for (int i = 0; i < 16; i ++)
             {
                 arrStyle[i] = dicStepToMap[currentLevel][currentMapIndex].arrStyle[i];
                 ImageButton buttonI = (ImageButton)controlGrid.Children[i];
@@ -223,10 +233,35 @@ namespace PokemonSwitch
                 else
                     currentMapIndex++;
             }
+
+            _headerVM.Level = LevelIntToText(currentLevel);
+            _headerVM.Gate = (currentMapIndex+1) + "/" + dicStepToMap[currentLevel].Count;
+
             for (int i = 0; i < 16; i++)
             {
                 arrStyle[i] = dicStepToMap[currentLevel][currentMapIndex].arrStyle[i]; ;
                 UpdateButton(i);
+            }
+        }
+
+        public async void TipForUser()
+        {
+            Algorithm algo = new Algorithm();
+            List<Node> listRes = algo.Solve(arrStyle);
+            MapSaver mSaver = new MapSaver(listRes.Count, arrStyle, listRes);
+            if (listRes.Count > 0)
+            {
+                Node firstSolveNode = listRes[0];
+                arrStyle[firstSolveNode.index] = !arrStyle[firstSolveNode.index];
+                UpdateButton(firstSolveNode.index);
+                DependencyService.Get<IToastAndViberate>().ShowToast("Pressed index " + firstSolveNode.index + ". There are " + (listRes.Count - 1) + " step(s) to solve.");
+                DependencyService.Get<IToastAndViberate>().Vibration(200);
+            }
+
+            if (IsSolved())
+            {
+                finishPage.SetStar(ConvertStepToRating(dicStepToMap[currentLevel][currentMapIndex].nSolvedStep));
+                await PopupNavigation.PushAsync(finishPage);
             }
         }
     }
@@ -239,6 +274,7 @@ namespace PokemonSwitch
         public MapSaver() { }
         public MapSaver(int _nStep, bool [] arr, List<Node> l)
         {
+            if (arrStyle == null) arrStyle = new bool[16];
             nSolvedStep = _nStep;
             for (int i = 0; i < arr.Length; i++)
                 arrStyle[i] = arr[i];
