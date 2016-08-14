@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PokemonSwitch
 {
-    class FinishedPopupVM : INotifyPropertyChanged
+    class FinishedPopupVM : ViewModelBase
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private Star _StarOne, _StarTwo, _StarThree, _StarFour, _StarFive;
@@ -110,21 +110,6 @@ namespace PokemonSwitch
             OnPropertyChanged("StarFour");
             OnPropertyChanged("StarFive");
         }
-        protected void OnPropertyChanged<T>(Expression<Func<T>> expression)
-        {
-            var property = (MemberExpression)expression.Body;
-            this.OnPropertyChanged(property.Member.Name);
-        }
-
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
     }
 
     public class Star

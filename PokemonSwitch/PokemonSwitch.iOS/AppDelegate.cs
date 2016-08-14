@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using System.Text;
 
 namespace PokemonSwitch.iOS
 {
@@ -24,6 +25,19 @@ namespace PokemonSwitch.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+            var fontList = new StringBuilder();
+            var familyNames = UIFont.FamilyNames;
+            foreach (var familyName in familyNames)
+            {
+                fontList.Append($"Family: {familyName}\n");
+                Console.WriteLine("Family: {0}\n", familyName);
+                var fontNames = UIFont.FontNamesForFamilyName(familyName);
+                foreach (var fontName in fontNames)
+                {
+                    Console.WriteLine("\tFont: {0}\n", fontName);
+                    fontList.Append($"\tFont: {fontName}\n");
+                }
+            };
 
             return base.FinishedLaunching(app, options);
         }

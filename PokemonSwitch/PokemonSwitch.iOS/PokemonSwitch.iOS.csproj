@@ -88,15 +88,21 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FormattedLabelRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="SaveAndLoad_iOS.cs" />
+    <Compile Include="ToastAndViberate_iOS.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork@2x" />
     <None Include="packages.config" />
+    <BundleResource Include="Resources\Chlorinp-Bold.ttf" />
+    <BundleResource Include="Resources\Chlorinp-BoldItalic.ttf" />
+    <BundleResource Include="Resources\Chlorinp-Italic.ttf" />
+    <BundleResource Include="Resources\Chlorinp-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
