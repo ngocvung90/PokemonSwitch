@@ -11,8 +11,7 @@ namespace PokemonSwitch
 {
     class FinishedPopupVM : ViewModelBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private Star _StarOne, _StarTwo, _StarThree, _StarFour, _StarFive;
+        private Star _StarOne, _StarTwo, _StarThree ;
         public Star StarOne
         {
             get { if (_StarOne == null) _StarOne = new Star();
@@ -51,64 +50,27 @@ namespace PokemonSwitch
                 OnPropertyChanged("StarThree");
             }
         }
-        public Star StarFour
-        {
-            get
-            {
-                if (_StarFour == null) _StarFour = new Star();
-                return _StarFour;
-            }
-            set
-            {
-                _StarFour = value;
-                OnPropertyChanged("StarFour");
-            }
-        }
-
-        public Star StarFive
-        {
-            get
-            {
-                if (_StarFive == null) _StarFive = new Star();
-                return _StarFive;
-            }
-            set
-            {
-                _StarFive = value;
-                OnPropertyChanged("StarFive");
-            }
-        }
         Dictionary<int, Star> dicIndexToStar = new Dictionary<int, Star>();
         public FinishedPopupVM()
         {
             StarOne = new Star();
             StarTwo = new Star();
             StarThree = new Star();
-            StarFour = new Star();
-            StarFive = new Star();
             dicIndexToStar.Add(1, StarOne);
             dicIndexToStar.Add(2, StarTwo);
             dicIndexToStar.Add(3, StarThree);
-            dicIndexToStar.Add(4, StarFour);
-            dicIndexToStar.Add(5, StarFive);
-            for (int i = 1; i <= 3; i++)
-                dicIndexToStar[i].Choose = true;
-            for (int i = 4; i <= 5; i++)
-                dicIndexToStar[i].Choose = false;
         }
 
         public void SetStar(int indexStar)
         {
             for (int i = 1; i <= indexStar; i++)
                 dicIndexToStar[i].Choose = true;
-            for (int i = indexStar + 1; i <= 5; i++)
+            for (int i = indexStar + 1; i <= 3; i++)
                 dicIndexToStar[i].Choose = false;
 
             OnPropertyChanged("StarOne");
             OnPropertyChanged("StarTwo");
             OnPropertyChanged("StarThree");
-            OnPropertyChanged("StarFour");
-            OnPropertyChanged("StarFive");
         }
     }
 

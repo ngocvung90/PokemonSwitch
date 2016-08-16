@@ -26,6 +26,14 @@ namespace PokemonSwitch
             InitializeComponent();
             Animation = new UserAnimation();
             BindingContext = _vm;
+
+            var tapImage = new TapGestureRecognizer();
+            tapImage.Tapped += OnClose;
+            imgRetry.GestureRecognizers.Add(tapImage);
+
+            tapImage = new TapGestureRecognizer();
+            tapImage.Tapped += OnNextMap;
+            imgNext.GestureRecognizers.Add(tapImage);
         }
 
         public void SetMapDelegate(Map map)

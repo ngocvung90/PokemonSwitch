@@ -147,11 +147,9 @@ namespace PokemonSwitch
         private int ConvertStepToRating(int minStep)
         {
             double completePercent = (double)((double)minStep / (double)currentStep) * 100;
-            if (completePercent <= 20) return 1;
-            else if (completePercent <= 40) return 2;
-            else if (completePercent <= 60) return 3;
-            else if (completePercent <= 80) return 4;
-            else return 5;
+            if (completePercent <= 33) return 1;
+            else if (completePercent <= 66) return 2;
+            else return 3;
 
         }
 
@@ -254,6 +252,17 @@ namespace PokemonSwitch
                 Node firstSolveNode = listRes[0];
                 arrStyle[firstSolveNode.index] = !arrStyle[firstSolveNode.index];
                 UpdateButton(firstSolveNode.index);
+                for (int i = 0; i < 4; i++)
+                {
+                    int nextIndexX = firstSolveNode.index / 4 + dx[i];
+                    int nextIndexY = firstSolveNode.index % 4 + dy[i];
+                    if (nextIndexX >= 0 && nextIndexX < 4 && nextIndexY >= 0 && nextIndexY < 4)
+                    {
+                        int nextIndex = nextIndexX * 4 + nextIndexY;
+                        arrStyle[nextIndex] = !arrStyle[nextIndex];
+                        UpdateButton(nextIndex);
+                    }
+                }
                 DependencyService.Get<IToastAndViberate>().ShowToast("Pressed index " + firstSolveNode.index + ". There are " + (listRes.Count - 1) + " step(s) to solve.");
                 DependencyService.Get<IToastAndViberate>().Vibration(200);
             }

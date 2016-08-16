@@ -3,55 +3,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:local="clr-namespace:PokemonSwitch;assembly=PokemonSwitch"  
+             xmlns:imgButton="clr-namespace:PokemonSwitch;assembly=PokemonSwitch"
              x:Class="PokemonSwitch.FinishedPopupPage">
+  <pages:PopupPage.Resources>
+    <ResourceDictionary x:Name="AppDictionary">
+      <Style x:Key ="LabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontFamily" Value="Chlorinp"/>
+        <Setter Property="TextColor" Value="White"/>
+      </Style>
+    </ResourceDictionary>
+  </pages:PopupPage.Resources>
   <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-    <Frame BackgroundColor="Silver">
+    <Frame BackgroundColor="Silver" Padding="10">
       <StackLayout Spacing="20">
-        <StackLayout Orientation="Horizontal" HeightRequest="70">
+        <Label Text="Configuration !" Style="{StaticResource LabelStyle}" FontSize="30" VerticalOptions="Center"/>
+        <StackLayout Orientation="Horizontal" >
+           <Label Text="Rate :" Style="{StaticResource LabelStyle}" VerticalOptions="Center"/>
           <Grid>
             <Image x:Name="starBlankOne" IsVisible="{Binding StarOne.NotChoose}"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
+                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" WidthRequest="50" />
 
             <Image x:Name="starSelectedOne"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"  WidthRequest="50"
                     IsVisible="{Binding StarOne.Choose}"/>
           </Grid>
           <Grid >
             <Image x:Name="starBlankTwo" IsVisible="{Binding StarTwo.NotChoose}"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
+                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}"  WidthRequest="50"/>
 
             <Image x:Name="starSelectedTwo"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"  WidthRequest="50"
                     IsVisible="{Binding StarTwo.Choose}"/>
           </Grid>
           <Grid >
             <Image x:Name="starBlankThree" IsVisible="{Binding StarThree.NotChoose}"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
+                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}"  WidthRequest="50"/>
 
             <Image x:Name="starSelectedThree"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
+                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"  WidthRequest="50"
                     IsVisible="{Binding StarThree.Choose}"/>
           </Grid>
-          <Grid >
-            <Image x:Name="starBlankFour" IsVisible="{Binding StarFour.NotChoose}"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
-
-            <Image x:Name="starSelectedFour"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
-                    IsVisible="{Binding StarFour.Choose}"/>
-          </Grid>
-          <Grid >
-            <Image x:Name="starBlankFive" IsVisible="{Binding StarFive.NotChoose}"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_outline.png}" />
-
-            <Image x:Name="starSelectedFive"
-                    Source="{local:ImageResource PokemonSwitch.Images.star_selected.png}"
-                    IsVisible="{Binding StarFive.Choose}"/>
-          </Grid>
         </StackLayout>
-        <StackLayout Spacing="20" Orientation="Horizontal">
-          <Button Text="Try Again" Clicked="OnClose" ></Button>
-          <Button Text="Next Map" Clicked="OnNextMap" ></Button>
+        <Label Text="Retry or Next ?" Style="{StaticResource LabelStyle}" VerticalOptions="Center"/>
+        <StackLayout Spacing="50" Orientation="Horizontal" HorizontalOptions="Center">
+          <imgButton:ImageButton_Image x:Name ="imgRetry" Source="{local:ImageResource PokemonSwitch.Images.retry.png}" WidthRequest="50" HeightRequest="50"></imgButton:ImageButton_Image>
+          <imgButton:ImageButton_Image  x:Name ="imgNext" Source="{local:ImageResource PokemonSwitch.Images.next.png}" WidthRequest="50" HeightRequest="50" ></imgButton:ImageButton_Image>
         </StackLayout>
       </StackLayout>
     </Frame>

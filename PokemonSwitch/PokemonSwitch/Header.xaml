@@ -5,6 +5,7 @@
              HasShadow="True"
              Padding="5"
              BackgroundColor="{StaticResource BackgroundColor}"
+             xmlns:local="clr-namespace:PokemonSwitch;assembly=PokemonSwitch"
              x:Class="PokemonSwitch.Header">
   <Frame.Resources>
     <ResourceDictionary x:Name="AppDictionary">
@@ -53,8 +54,9 @@
               <Label  Text="{Binding Gate}" Style="{StaticResource LabelStyle}"/>
             </StackLayout>
             <StackLayout Grid.Row="2" Orientation="Horizontal" Spacing="20">
-              <Button Text="Change" FontFamily="Chlorinp" />
-              <Button Text="Reset"/>
+              <local:ImageButton_Image x:Name ="imgSetting" Source="{local:ImageResource PokemonSwitch.Images.setting.png}" WidthRequest="50" HeightRequest="50"></local:ImageButton_Image>
+              <local:ImageButton_Image  x:Name ="imgRetry" Source="{local:ImageResource PokemonSwitch.Images.retry.png}" WidthRequest="50" HeightRequest="50" ></local:ImageButton_Image>
+              <local:ImageButton_Image  x:Name ="imgGuide" Source="{local:ImageResource PokemonSwitch.Images.help.png}" WidthRequest="50" HeightRequest="50" ></local:ImageButton_Image>
             </StackLayout>
           </Grid>
         </Grid>

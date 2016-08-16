@@ -12,7 +12,7 @@ namespace PokemonSwitch
         Node[] arrNode; Node[] arrNodeParent; Node[] arrNodeParentSaved;
         Node startNode, endNode;
         bool solved; int nStep;
-        int[] dx = { -1, 1, 0, 1 };
+        int[] dx = { -1, 1, 0, 0 };
         int[] dy = { 0, 0, -1, 1 };
         private bool IsSameColor()
         {
