@@ -29,5 +29,17 @@ namespace PokemonSwitch
                 OnPropertyChanged("Gate");
             }
         }
+
+        private string _BestSolve = "";
+        public string BestSolve
+        {
+            get { return _BestSolve; }
+            set
+            {
+                _BestSolve = value;
+                OnPropertyChanged("BestSolve");
+            }
+        }
+
     }
 }

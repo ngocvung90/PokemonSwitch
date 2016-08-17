@@ -16,6 +16,7 @@ namespace PokemonSwitch
         int[] dx = { -1, 1, 0, 0 };
         int[] dy = { 0, 0, -1, 1 };
         Grid controlGrid = new Grid { RowSpacing = 1, ColumnSpacing = 1 };
+        Grid mainGrid = new Grid { RowSpacing = 1, ColumnSpacing = 1 };
         Style plainButton, orangeButton;
         bool[] arrStyle = { true, true, false, false, true, false, false, false, false, false, false, false, false, false, false, false };
         FinishedPopupPage finishPage;
@@ -31,7 +32,7 @@ namespace PokemonSwitch
             finishPage.SetMapDelegate(this);
             Title = "Calculator - C#";
             BackgroundColor = Color.FromHex("#404040");
-
+            #region Button Style
             plainButton = new Style(typeof(ImageButton))
             {
                 Setters = {
@@ -61,69 +62,67 @@ namespace PokemonSwitch
       new Setter {Property = ImageButton.OrientationProperty , Value = ImageOrientation.ImageCentered}
     }
             };
+            #endregion
 
-            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(150) });
-            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-
-            controlGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            controlGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            controlGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            controlGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-
-            //var label = new Label
-            //{
-            //    Text = "0",
-            //    HorizontalTextAlignment = TextAlignment.End,
-            //    VerticalTextAlignment = TextAlignment.End,
-            //    TextColor = Color.White,
-            //    FontSize = 60
-            //};
-            //controlGrid.Children.Add(label, 0, 0);
-
-            //Grid.SetColumnSpan(label, 4);
-
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 0, 1);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 1);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 1);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 1);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 0, 2);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 2);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 2);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 2);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 0, 3);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 3);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 3);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 3);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 0, 4);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 4);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 4);
-            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 4);
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
             Header header = new Header();
-            controlGrid.Children.Add(header, 0, 0);
-            Grid.SetColumnSpan(header, 4);
+            mainGrid.Children.Add(header, 0, 0);
+            Grid.SetRowSpan(header, 2);
             header.BindingContext = _headerVM;
 
-            //controlGrid.Children.Add(new Button { Text = ".", Style = plainButton }, 2, 5);
-            //controlGrid.Children.Add(new Button { Text = "=", Style = orangeButton }, 3, 5);
+            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            controlGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+            controlGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            controlGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            controlGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            controlGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 0, 0);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 0, 1);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 0, 2);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 0, 3);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 0);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 1);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 2);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 1, 3);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 0);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 1);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 2);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 2, 3);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 0);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 1);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 2);
+            controlGrid.Children.Add(new ImageButton { Style = plainButton }, 3, 3);
+
+            mainGrid.Children.Add(controlGrid, 0, 2);
+            Grid.SetRowSpan(controlGrid, 4);
 
             MapFooter footer = new MapFooter(this);
-            controlGrid.Children.Add(footer, 0, 5);
-            Grid.SetColumnSpan(footer, 4);
+            mainGrid.Children.Add(footer, 0, 6);
+            Grid.SetColumnSpan(footer, 1);
 
-            controlGrid.BackgroundColor = Color.FromHex("#558B2F");
-            Content = controlGrid;
+            mainGrid.BackgroundColor = Color.FromHex("#558B2F");
+            Content = mainGrid;
 
         }
 
-        void UpdateButton(int index)
+        async void UpdateButton(int index, bool useRotateAnimation = true)
         {
             ImageButton buttonI = (ImageButton)controlGrid.Children[index];
-            if (arrStyle[index])
+            if(useRotateAnimation)
+                await buttonI.RotateXTo(180);
+
+                if (arrStyle[index])
             {
                 buttonI.Style = orangeButton;
                 buttonI.Source = "Charizard.png";
@@ -133,6 +132,9 @@ namespace PokemonSwitch
                 buttonI.Style = plainButton;
                 buttonI.Source = "Venusaur.png";
             }
+
+            if(useRotateAnimation)
+                await buttonI.RotateXTo(0);
         }
 
         bool IsSolved()
@@ -158,7 +160,7 @@ namespace PokemonSwitch
             currentStep++;
             int index = Int32.Parse(((View)sender).ClassId);
             arrStyle[index] = !arrStyle[index];
-            UpdateButton(index);
+            UpdateButton(index, true);
             for (int i = 0; i < 4; i++)
             {
                 int nextIndexX = index / 4 + dx[i];
@@ -167,7 +169,7 @@ namespace PokemonSwitch
                 {
                     int nextIndex = nextIndexX * 4 + nextIndexY;
                     arrStyle[nextIndex] = !arrStyle[nextIndex];
-                    UpdateButton(nextIndex);
+                    UpdateButton(nextIndex, true);
                 }
             }
             if (IsSolved())
@@ -201,7 +203,7 @@ namespace PokemonSwitch
             }
             return strLevel;
         }
-        public void SetMap(Dictionary<int, List<MapSaver>> dic, int level)
+        public async void SetMap(Dictionary<int, List<MapSaver>> dic, int level)
         {
             currentStep = 0;
             dicStepToMap = new Dictionary<int, List<MapSaver>>(dic);
@@ -209,19 +211,25 @@ namespace PokemonSwitch
             currentMapIndex = 0;
             _headerVM.Level = LevelIntToText(level);
             _headerVM.Gate = (currentMapIndex + 1) + "/" + dicStepToMap[currentLevel].Count;
-            for (int i = 0; i < 16; i ++)
+            _headerVM.BestSolve = level + " Steps";
+            await controlGrid.ScaleTo(0);
+
+            for (int i = 0; i < 16; i++)
             {
                 arrStyle[i] = dicStepToMap[currentLevel][currentMapIndex].arrStyle[i];
                 ImageButton buttonI = (ImageButton)controlGrid.Children[i];
                 controlGrid.Children[i].ClassId = i.ToString();
-                UpdateButton(i);
+                UpdateButton(i, false);
                 buttonI.Clicked += ButtonI_Clicked;
             }
+
+            await controlGrid.ScaleTo(1);
+
         }
-        public void NextMap(PopupChoosen choosen)
+        public async void NextMap(PopupChoosen choosen)
         {
             currentStep = 0;
-            if(choosen == PopupChoosen.NextMap)
+            if (choosen == PopupChoosen.NextMap)
             {
                 if (currentMapIndex == dicStepToMap[currentLevel].Count - 1)
                 {
@@ -233,13 +241,21 @@ namespace PokemonSwitch
             }
 
             _headerVM.Level = LevelIntToText(currentLevel);
-            _headerVM.Gate = (currentMapIndex+1) + "/" + dicStepToMap[currentLevel].Count;
+            _headerVM.Gate = (currentMapIndex + 1) + "/" + dicStepToMap[currentLevel].Count;
+            _headerVM.BestSolve = currentLevel + " Steps";
+            await controlGrid.ScaleTo(0.0);
 
             for (int i = 0; i < 16; i++)
             {
-                arrStyle[i] = dicStepToMap[currentLevel][currentMapIndex].arrStyle[i]; ;
-                UpdateButton(i);
+                if (arrStyle[i] != dicStepToMap[currentLevel][currentMapIndex].arrStyle[i])
+                {
+                    arrStyle[i] = dicStepToMap[currentLevel][currentMapIndex].arrStyle[i]; ;
+                    UpdateButton(i, false);
+                }
+
             }
+
+            await controlGrid.ScaleTo(1);
         }
 
         public async void TipForUser()
@@ -251,7 +267,7 @@ namespace PokemonSwitch
             {
                 Node firstSolveNode = listRes[0];
                 arrStyle[firstSolveNode.index] = !arrStyle[firstSolveNode.index];
-                UpdateButton(firstSolveNode.index);
+                UpdateButton(firstSolveNode.index, true);
                 for (int i = 0; i < 4; i++)
                 {
                     int nextIndexX = firstSolveNode.index / 4 + dx[i];
@@ -260,7 +276,7 @@ namespace PokemonSwitch
                     {
                         int nextIndex = nextIndexX * 4 + nextIndexY;
                         arrStyle[nextIndex] = !arrStyle[nextIndex];
-                        UpdateButton(nextIndex);
+                        UpdateButton(nextIndex, true);
                     }
                 }
                 DependencyService.Get<IToastAndViberate>().ShowToast("Pressed index " + firstSolveNode.index + ". There are " + (listRes.Count - 1) + " step(s) to solve.");
