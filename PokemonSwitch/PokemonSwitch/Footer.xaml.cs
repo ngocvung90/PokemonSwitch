@@ -18,6 +18,16 @@ namespace PokemonSwitch
             _mapDelegate = mapDelegate;
         }
 
+        public void ResetMap()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SettingSaved()
+        {
+            throw new NotImplementedException();
+        }
+
         public void TipForUser()
         {
             _mapDelegate.TipForUser();

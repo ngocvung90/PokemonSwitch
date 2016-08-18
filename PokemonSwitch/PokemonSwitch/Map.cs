@@ -72,7 +72,7 @@ namespace PokemonSwitch
             mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
-            Header header = new Header();
+            Header header = new Header(this);
             mainGrid.Children.Add(header, 0, 0);
             Grid.SetRowSpan(header, 2);
             header.BindingContext = _headerVM;
@@ -288,6 +288,16 @@ namespace PokemonSwitch
                 finishPage.SetStar(ConvertStepToRating(dicStepToMap[currentLevel][currentMapIndex].nSolvedStep));
                 await PopupNavigation.PushAsync(finishPage);
             }
+        }
+
+        public void ResetMap()
+        {
+            NextMap(PopupChoosen.Retry);
+        }
+
+        public void SettingSaved()
+        {
+            throw new NotImplementedException();
         }
     }
 

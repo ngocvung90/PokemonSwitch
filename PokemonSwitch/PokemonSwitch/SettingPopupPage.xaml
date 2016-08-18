@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:local="clr-namespace:PokemonSwitch;assembly=PokemonSwitch"  
+             x:Class="PokemonSwitch.SettingPopupPage">
+  <pages:PopupPage.Resources>
+    <ResourceDictionary x:Name="AppDictionary">
+      <Style x:Key ="LabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontFamily" Value="Chlorinp"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+      </Style>
+    </ResourceDictionary>
+  </pages:PopupPage.Resources>
+  <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+    <Frame BackgroundColor="Silver" Padding="10">
+      <StackLayout Spacing="10">
+          <Label Style="{StaticResource LabelStyle}" FontSize="30" Text="Game Setting" VerticalOptions="Center" HorizontalOptions="Center" />
+
+          <BoxView Margin="30, -1, 30, -1" BackgroundColor="#A1887F" HeightRequest="1"></BoxView>
+
+          <StackLayout Orientation="Horizontal" Spacing="15" Margin="0, -1, 0, -1">
+            <Label Style="{StaticResource LabelStyle}" Text="Level : " />
+            <Label Style="{StaticResource LabelStyle}" Text="{Binding Level}" />
+            <local:ImageButton_Image Margin="-1, -1, 5, -1" VerticalOptions="Center" x:Name ="imgSettingLevel" Source="{local:ImageResource PokemonSwitch.Images.setting.png}" WidthRequest="40" HeightRequest="40" ></local:ImageButton_Image>
+          </StackLayout>
+          <StackLayout Orientation="Horizontal" Spacing="15">
+            <Label Style="{StaticResource LabelStyle}" Text="Gate : " />
+            <Label Style="{StaticResource LabelStyle}" Text="{Binding Gate}" />
+            <local:ImageButton_Image Margin="-1, -1, 5, -1" VerticalOptions="Center" x:Name ="imgSettingGate" Source="{local:ImageResource PokemonSwitch.Images.setting.png}" WidthRequest="40" HeightRequest="40" ></local:ImageButton_Image>
+          </StackLayout>
+          <StackLayout Orientation="Horizontal" Spacing="8">
+            <Label Style="{StaticResource LabelStyle}" Text="Image : " />
+            <Image Source="{Binding ImageSource1}" WidthRequest="40" HeightRequest="40"/>
+            <Image Source="{Binding ImageSource2}" WidthRequest="40" HeightRequest="40"/>
+            <local:ImageButton_Image Margin="-1, -1, 5, -1" VerticalOptions="Center" x:Name ="imgSettingImage" Source="{local:ImageResource PokemonSwitch.Images.setting.png}" WidthRequest="40" HeightRequest="40" ></local:ImageButton_Image>
+          </StackLayout>
+
+          <BoxView Margin="30, -1, 30, -1" BackgroundColor="#A1887F" HeightRequest="1"></BoxView>
+
+          <!--<Label Style="{StaticResource LabelStyle}" Grid.Row="4" Text="Sound : " />-->
+          <local:ImageButton_Image VerticalOptions="Center" x:Name ="imgSave" Source="{local:ImageResource PokemonSwitch.Images.setting.png}" WidthRequest="40" HeightRequest="40" ></local:ImageButton_Image>
+      </StackLayout>
+      
+    </Frame>
+    
+  </StackLayout>
+  
+</pages:PopupPage>
